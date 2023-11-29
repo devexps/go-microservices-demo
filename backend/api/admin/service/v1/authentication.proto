@@ -1,0 +1,125 @@
+syntax = "proto3";
+
+package admin.service.v1;
+
+import "gnostic/openapi/v3/annotations.proto";
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/protobuf/empty.proto";
+import "user/service/v1/user.proto";
+
+option go_package = "github.com/devexps/go-microservices-demo/gen/api/go/admin/service/v1;v1";
+
+// AuthenticationService
+service AuthenticationService {
+  // Login
+  rpc Login (LoginRequest) returns (LoginResponse) {
+    option (google.api.http) = {
+      post: "/admin/v1/login"
+      body: "*"
+    };
+  }
+
+  // Logout
+  rpc Logout (LogoutRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/logout"
+      body: "*"
+    };
+    option(gnostic.openapi.v3.operation) = {
+      security: [{additional_properties: [{name: "OAuth2PasswordBearer"; value: {}}]}]
+    };
+  }
+
+  // RefreshToken
+  rpc RefreshToken (RefreshTokenRequest) returns (RefreshTokenResponse) {
+    option (google.api.http) = {
+      post: "/admin/v1/refresh_token"
+      body: "*"
+    };
+    option(gnostic.openapi.v3.operation) = {
+      security: [{additional_properties: [{name: "OAuth2PasswordBearer"; value: {}}]}]
+    };
+  }
+
+  // GetMe
+  rpc GetMe (GetMeRequest) returns (user.service.v1.User) {
+    option (google.api.http) = {
+      get: "/admin/v1/me"
+    };
+    option(gnostic.openapi.v3.operation) = {
+      security: [{additional_properties: [{name: "OAuth2PasswordBearer"; value: {}}]}]
+    };
+  }
+}
+
+// LoginRequest
+message LoginRequest {
+  string username = 1 [
+    json_name = "username",
+    (google.api.field_behavior) = REQUIRED
+  ];
+  string password = 2 [
+    json_name = "password",
+    (google.api.field_behavior) = REQUIRED
+  ];
+  string grand_type = 3 [
+    json_name = "grand_type",
+    (google.api.field_behavior) = REQUIRED,
+    (gnostic.openapi.v3.property) = {
+      description: "Authorization type, the value here is fixed to \"password\", required.",
+      default: {string: "password"}
+    }
+  ];
+  string scope = 4 [
+    json_name = "scope",
+    (google.api.field_behavior) = OPTIONAL
+  ];
+}
+
+// LoginResponse
+message LoginResponse {
+  string access_token = 1 [json_name = "access_token"];
+  string refresh_token = 2 [json_name = "refresh_token"];
+  string grand_type = 3 [json_name = "grand_type"];
+  int64 expires_in = 4 [json_name = "expires_in"];
+}
+
+// LogoutRequest
+message LogoutRequest {
+  uint32 id = 1 [
+    (google.api.field_behavior) = REQUIRED
+  ];
+}
+
+// RefreshTokenRequest
+message RefreshTokenRequest {
+  string refresh_token = 1 [
+    (google.api.field_behavior) = REQUIRED
+  ];
+  string grandType = 2 [
+    (google.api.field_behavior) = REQUIRED,
+    (gnostic.openapi.v3.property) = {
+      description: "Authorization type, the value here is fixed to \"password\", required.",
+      default: {string: "password"}
+    }
+  ];
+  string scope = 3 [
+    (google.api.field_behavior) = OPTIONAL
+  ];
+}
+
+// RefreshTokenResponse
+message RefreshTokenResponse {
+  string access_token = 1;
+  string refresh_token = 2;
+  string grand_type = 3;
+  int64 expires_in = 4;
+}
+
+// GetMeRequest
+message GetMeRequest {
+  uint32 id = 1 [
+    (google.api.field_behavior) = REQUIRED
+  ];
+}

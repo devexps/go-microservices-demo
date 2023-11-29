@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package user_token.service.v1;
+
+import "gnostic/openapi/v3/annotations.proto";
+import "google/protobuf/empty.proto";
+import "user/service/v1/user.proto";
+
+option go_package = "github.com/devexps/go-microservices-demo/gen/api/go/user_token/service/v1;v1";
+
+// UserTokenService
+service UserTokenService {
+  // GenerateToken
+  rpc GenerateToken (user.service.v1.User) returns (TokenResponse) {}
+
+  // RemoveToken
+  rpc RemoveToken (user.service.v1.User) returns (google.protobuf.Empty) {}
+
+  // GetRefreshToken
+  rpc GetRefreshToken (user.service.v1.User) returns (TokenResponse) {}
+
+  // GenerateAccessToken
+  rpc GenerateAccessToken (user.service.v1.User) returns (TokenResponse) {}
+}
+
+// TokenResponse
+message TokenResponse {
+  string access_token = 1;
+  string refresh_token = 2;
+}

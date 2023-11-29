@@ -1,0 +1,138 @@
+syntax = "proto3";
+
+package user.service.v1;
+
+import "gnostic/openapi/v3/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "common/pagination/pagination.proto";
+
+option go_package = "github.com/devexps/go-microservices-demo/gen/api/go/user/service/v1;v1";
+
+// UserService
+service UserService {
+  // ListUser
+  rpc ListUser (common.pagination.PagingRequest) returns (ListUserResponse) {}
+
+  // GetUser
+  rpc GetUser (GetUserRequest) returns (User) {}
+
+  // CreateUser
+  rpc CreateUser (CreateUserRequest) returns (google.protobuf.Empty) {}
+
+  // UpdateUser
+  rpc UpdateUser (UpdateUserRequest) returns (google.protobuf.Empty) {}
+
+  // DeleteUser
+  rpc DeleteUser (DeleteUserRequest) returns (google.protobuf.Empty) {}
+
+  // GetUserByUserName
+  rpc GetUserByUserName (GetUserByUserNameRequest) returns (User) {}
+
+  // VerifyPassword
+  rpc VerifyPassword (VerifyPasswordRequest) returns (User) {}
+
+  // UserExists
+  rpc UserExists (UserExistsRequest) returns (UserExistsResponse) {}
+}
+
+// UserAuthority
+enum UserAuthority {
+  SYS_ADMIN = 0; // System super user
+  CUSTOMER_USER = 1; // Ordinary user
+  GUEST_USER = 2; // Guest
+  REFRESH_TOKEN = 3; // Refresh token
+}
+
+// User
+message User {
+  uint32 id = 1;
+  optional uint32 creator_id = 2 [(gnostic.openapi.v3.property) = {description: "CreatorID"}];
+
+  optional string user_name = 10;
+  optional string nick_name = 11;
+  optional string real_name = 12 [(gnostic.openapi.v3.property) = {description: "Real Name"}];
+  optional string avatar = 13 [(gnostic.openapi.v3.property) = {description: "Avatar"}];
+  optional string email = 14 [(gnostic.openapi.v3.property) = {description: "Email"}];
+  optional string phone = 15 [(gnostic.openapi.v3.property) = {description: "Phone"}];
+  optional string gender = 16 [(gnostic.openapi.v3.property) = {description: "Gender"}];
+  optional string address = 17 [(gnostic.openapi.v3.property) = {description: "Address"}];
+  optional string description = 18;
+
+  optional int64 last_login_time = 20 [(gnostic.openapi.v3.property) = {description: "Last login time"}];
+  optional string last_login_ip = 21 [(gnostic.openapi.v3.property) = {description: "Last login IP"}];
+  optional string status = 22 [(gnostic.openapi.v3.property) = {
+    description: "Status"
+    default: {string: "ON"}
+    enum: [{yaml: "ON"}, {yaml: "OFF"}]
+  }];
+  optional UserAuthority authority = 23 [(gnostic.openapi.v3.property) = {
+    description: "Authority"
+    default: {string: "CUSTOMER_USER"}
+  }];
+
+  optional string create_time = 30;
+  optional string update_time = 31;
+  optional string delete_time = 32;
+}
+
+// ListUserResponse
+message ListUserResponse {
+  repeated User items = 1;
+  int32 total = 2;
+}
+
+// GetUserRequest
+message GetUserRequest {
+  uint32 id = 1;
+}
+
+// CreateUserRequest
+message CreateUserRequest {
+  User user = 1 [(google.api.field_behavior) = REQUIRED];
+  uint32 operator_id = 2;
+  string password = 3;
+}
+
+// UpdateUserRequest
+message UpdateUserRequest {
+  User user = 1 [(google.api.field_behavior) = REQUIRED];
+  uint32 operator_id = 2;
+  string password = 3;
+  google.protobuf.FieldMask update_mask = 4 [
+    (gnostic.openapi.v3.property) = {
+      description: "updateMask",
+      example: {yaml : "id,realName,userName"}
+    },
+    json_name = "updateMask"
+  ];
+  bool allow_missing = 5;
+}
+
+// DeleteUserRequest
+message DeleteUserRequest {
+  uint32 id = 1;
+  uint32 operator_id = 2;
+}
+
+// GetUserByUserNameRequest
+message GetUserByUserNameRequest {
+  string user_name = 1;
+}
+
+// VerifyPasswordRequest
+message VerifyPasswordRequest {
+  string user_name = 1;
+  string password = 2;
+}
+
+// UserExistsRequest
+message UserExistsRequest {
+  string user_name = 1;
+}
+
+// UserExistsResponse
+message UserExistsResponse {
+  bool exist = 1;
+}

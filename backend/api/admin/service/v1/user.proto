@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package admin.service.v1;
+
+import "gnostic/openapi/v3/annotations.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "user/service/v1/user.proto";
+import "common/pagination/pagination.proto";
+
+option go_package = "github.com/devexps/go-microservices-demo/gen/api/go/admin/service/v1;v1";
+
+// UserService
+service UserService {
+  // ListUser
+  rpc ListUser (common.pagination.PagingRequest) returns (user.service.v1.ListUserResponse) {
+    option (google.api.http) = {
+      get: "/admin/v1/users"
+    };
+    option(gnostic.openapi.v3.operation) = {
+      security: [{additional_properties: [{name: "OAuth2PasswordBearer"; value: {}}]}]
+    };
+  }
+
+  // GetUser
+  rpc GetUser (user.service.v1.GetUserRequest) returns (user.service.v1.User) {
+    option (google.api.http) = {
+      get: "/admin/v1/users/{id}"
+    };
+    option(gnostic.openapi.v3.operation) = {
+      security: [{additional_properties: [{name: "OAuth2PasswordBearer"; value: {}}]}]
+    };
+  }
+
+  // CreateUser
+  rpc CreateUser (user.service.v1.CreateUserRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/users"
+      body: "user"
+    };
+    option(gnostic.openapi.v3.operation) = {
+      security: [{additional_properties: [{name: "OAuth2PasswordBearer"; value: {}}]}]
+    };
+  }
+
+  // UpdateUser
+  rpc UpdateUser (user.service.v1.UpdateUserRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put: "/admin/v1/users/{user.id}"
+      body: "user"
+    };
+    option(gnostic.openapi.v3.operation) = {
+      security: [{additional_properties: [{name: "OAuth2PasswordBearer"; value: {}}]}]
+    };
+  }
+
+  // DeleteUser
+  rpc DeleteUser (user.service.v1.DeleteUserRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/admin/v1/users/{id}"
+    };
+    option(gnostic.openapi.v3.operation) = {
+      security: [{additional_properties: [{name: "OAuth2PasswordBearer"; value: {}}]}]
+    };
+  }
+}

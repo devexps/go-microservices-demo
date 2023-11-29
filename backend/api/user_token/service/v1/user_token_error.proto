@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package user_token.service.v1;
+
+import "errors/errors.proto";
+
+option go_package = "github.com/devexps/go-microservices-demo/gen/api/go/user_token/service/v1;v1";
+
+// UserTokenErrorReason
+enum UserTokenErrorReason {
+  option (errors.default_code) = 500;
+
+  TOKEN_NOT_FOUND = 0 [(errors.code) = 401];
+  CREATE_ACCESS_TOKEN_FAILED = 1 [(errors.code) = 402];
+  STORE_REDIS_FAILED = 2 [(errors.code) = 403];
+  CREATE_REFRESH_TOKEN_FAILED = 3 [(errors.code) = 404];
+  REMOVE_ACCESS_TOKEN_FAILED = 4 [(errors.code) = 405];
+  REMOVE_REFRESH_TOKEN_FAILED = 5 [(errors.code) = 406];
+}

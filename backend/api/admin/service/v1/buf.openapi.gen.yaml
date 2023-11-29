@@ -1,0 +1,14 @@
+version: v1
+managed:
+  enabled: false
+plugins:
+#   generate openapi v2 yaml doc
+  - name: openapi
+    out: ./app/admin/service/cmd/server/assets
+    opt:
+      - naming=json # Naming convention. Use "proto" to pass the name directly from the proto file. Default: json
+      - depth=2 # The recursion depth of the loop message, the default is: 2
+      - default_response=false # Add default response message. If "true", automatically adds a default response for operations that use the google.rpc.Status message. Useful if you use envoy or grpc-gateway for transcoding as they use this type as the default error response. Default: true.
+      - enum_type=string # The serialized type of the enumeration type. Use "string" to perform string-based serialization. Default: integer.
+      - output_mode=merged # Output file generation mode. By default, only one openapi.yaml file will be generated in the output folder. Using "source_relative" will generate a separate "[inputfile].openapi.yaml" file for each '[inputfile].proto' file. Default: merged.
+      - fq_schema_naming=false # Whether to add the package name to the Schema name. If it is true, the package name will be added, for example: system.service.v1.ListDictDetailResponse, otherwise: ListDictDetailResponse. Default: false.

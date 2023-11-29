@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package admin.service.v1;
+
+import "errors/errors.proto";
+
+option go_package = "github.com/devexps/go-microservices-demo/gen/api/go/admin/service/v1;v1";
+
+enum AdminErrorReason {
+  option (errors.default_code) = 500;
+
+  BAD_REQUEST = 0 [(errors.code) = 401];
+  NOT_LOGGED_IN = 1 [(errors.code) = 402];
+  INVALID_TOKEN = 2 [(errors.code) = 403];
+}
