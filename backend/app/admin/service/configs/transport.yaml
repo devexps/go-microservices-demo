@@ -1,0 +1,41 @@
+server:
+  http:
+    addr: "0.0.0.0:8080"
+    timeout: 10s
+    enable_swagger: true
+    cors:
+      headers:
+        - "X-Requested-With"
+        - "Content-Type"
+        - "Authorization"
+      methods:
+        - "GET"
+        - "POST"
+        - "PUT"
+        - "DELETE"
+        - "HEAD"
+        - "OPTIONS"
+      origins:
+        - "*"
+    middleware:
+      enable_logging: true
+      enable_recovery: true
+      enable_tracing: true
+      enable_validate: true
+      auth:
+        method: "HS256"
+        key: "some_api_key"
+      metrics:
+        histogram: true
+
+client:
+  grpc:
+    timeout: 10s
+    middleware:
+      enable_logging: true
+      enable_recovery: true
+      enable_tracing: true
+      enable_validate: true
+      auth:
+        method: ""
+        key: "some_api_key"

@@ -10,12 +10,13 @@ option go_package = "github.com/devexps/go-microservices-demo/gen/api/go/user/se
 enum UserErrorReason {
   option (errors.default_code) = 500;
 
-  USER_NOT_EXIST = 0 [(errors.code) = 401];
-  INVALID_PASSWORD = 1 [(errors.code) = 402];
-  INVALID_REQUEST = 2 [(errors.code) = 403];
-  INVALID_FIELD_MASK = 3 [(errors.code) = 404];
-  QUERY_DATA_FAILED = 4 [(errors.code) = 405];
-  INSERT_DATA_FAILED = 5 [(errors.code) = 406];
-  UPDATE_DATA_FAILED = 6 [(errors.code) = 407];
-  DELETE_DATA_FAILED = 7 [(errors.code) = 408];
+  BAD_REQUEST = 0 [(errors.code) = 401];
+  USER_NOT_EXIST = 1 [(errors.code) = 402];
+  INVALID_PASSWORD = 2 [(errors.code) = 403];
+  INVALID_REQUEST = 3 [(errors.code) = 404];
+  INVALID_FIELD_MASK = 4 [(errors.code) = 405];
+  QUERY_DATA_FAILED = 5 [(errors.code) = 406];
+  INSERT_DATA_FAILED = 6 [(errors.code) = 407];
+  UPDATE_DATA_FAILED = 7 [(errors.code) = 408];
+  DELETE_DATA_FAILED = 8 [(errors.code) = 409];
 }

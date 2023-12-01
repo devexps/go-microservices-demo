@@ -11,16 +11,28 @@ import (
 // is compatible with the micro package it is being compiled against.
 const _ = errors.SupportPackageIsVersion1
 
+func IsBadRequest(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == UserErrorReason_BAD_REQUEST.String() && e.Code == 401
+}
+
+func ErrorBadRequest(format string, args ...interface{}) *errors.Error {
+	return errors.New(401, UserErrorReason_BAD_REQUEST.String(), fmt.Sprintf(format, args...))
+}
+
 func IsUserNotExist(err error) bool {
 	if err == nil {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == UserErrorReason_USER_NOT_EXIST.String() && e.Code == 401
+	return e.Reason == UserErrorReason_USER_NOT_EXIST.String() && e.Code == 402
 }
 
 func ErrorUserNotExist(format string, args ...interface{}) *errors.Error {
-	return errors.New(401, UserErrorReason_USER_NOT_EXIST.String(), fmt.Sprintf(format, args...))
+	return errors.New(402, UserErrorReason_USER_NOT_EXIST.String(), fmt.Sprintf(format, args...))
 }
 
 func IsInvalidPassword(err error) bool {
@@ -28,11 +40,11 @@ func IsInvalidPassword(err error) bool {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == UserErrorReason_INVALID_PASSWORD.String() && e.Code == 402
+	return e.Reason == UserErrorReason_INVALID_PASSWORD.String() && e.Code == 403
 }
 
 func ErrorInvalidPassword(format string, args ...interface{}) *errors.Error {
-	return errors.New(402, UserErrorReason_INVALID_PASSWORD.String(), fmt.Sprintf(format, args...))
+	return errors.New(403, UserErrorReason_INVALID_PASSWORD.String(), fmt.Sprintf(format, args...))
 }
 
 func IsInvalidRequest(err error) bool {
@@ -40,11 +52,11 @@ func IsInvalidRequest(err error) bool {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == UserErrorReason_INVALID_REQUEST.String() && e.Code == 403
+	return e.Reason == UserErrorReason_INVALID_REQUEST.String() && e.Code == 404
 }
 
 func ErrorInvalidRequest(format string, args ...interface{}) *errors.Error {
-	return errors.New(403, UserErrorReason_INVALID_REQUEST.String(), fmt.Sprintf(format, args...))
+	return errors.New(404, UserErrorReason_INVALID_REQUEST.String(), fmt.Sprintf(format, args...))
 }
 
 func IsInvalidFieldMask(err error) bool {
@@ -52,11 +64,11 @@ func IsInvalidFieldMask(err error) bool {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == UserErrorReason_INVALID_FIELD_MASK.String() && e.Code == 404
+	return e.Reason == UserErrorReason_INVALID_FIELD_MASK.String() && e.Code == 405
 }
 
 func ErrorInvalidFieldMask(format string, args ...interface{}) *errors.Error {
-	return errors.New(404, UserErrorReason_INVALID_FIELD_MASK.String(), fmt.Sprintf(format, args...))
+	return errors.New(405, UserErrorReason_INVALID_FIELD_MASK.String(), fmt.Sprintf(format, args...))
 }
 
 func IsQueryDataFailed(err error) bool {
@@ -64,11 +76,11 @@ func IsQueryDataFailed(err error) bool {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == UserErrorReason_QUERY_DATA_FAILED.String() && e.Code == 405
+	return e.Reason == UserErrorReason_QUERY_DATA_FAILED.String() && e.Code == 406
 }
 
 func ErrorQueryDataFailed(format string, args ...interface{}) *errors.Error {
-	return errors.New(405, UserErrorReason_QUERY_DATA_FAILED.String(), fmt.Sprintf(format, args...))
+	return errors.New(406, UserErrorReason_QUERY_DATA_FAILED.String(), fmt.Sprintf(format, args...))
 }
 
 func IsInsertDataFailed(err error) bool {
@@ -76,11 +88,11 @@ func IsInsertDataFailed(err error) bool {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == UserErrorReason_INSERT_DATA_FAILED.String() && e.Code == 406
+	return e.Reason == UserErrorReason_INSERT_DATA_FAILED.String() && e.Code == 407
 }
 
 func ErrorInsertDataFailed(format string, args ...interface{}) *errors.Error {
-	return errors.New(406, UserErrorReason_INSERT_DATA_FAILED.String(), fmt.Sprintf(format, args...))
+	return errors.New(407, UserErrorReason_INSERT_DATA_FAILED.String(), fmt.Sprintf(format, args...))
 }
 
 func IsUpdateDataFailed(err error) bool {
@@ -88,11 +100,11 @@ func IsUpdateDataFailed(err error) bool {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == UserErrorReason_UPDATE_DATA_FAILED.String() && e.Code == 407
+	return e.Reason == UserErrorReason_UPDATE_DATA_FAILED.String() && e.Code == 408
 }
 
 func ErrorUpdateDataFailed(format string, args ...interface{}) *errors.Error {
-	return errors.New(407, UserErrorReason_UPDATE_DATA_FAILED.String(), fmt.Sprintf(format, args...))
+	return errors.New(408, UserErrorReason_UPDATE_DATA_FAILED.String(), fmt.Sprintf(format, args...))
 }
 
 func IsDeleteDataFailed(err error) bool {
@@ -100,9 +112,9 @@ func IsDeleteDataFailed(err error) bool {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == UserErrorReason_DELETE_DATA_FAILED.String() && e.Code == 408
+	return e.Reason == UserErrorReason_DELETE_DATA_FAILED.String() && e.Code == 409
 }
 
 func ErrorDeleteDataFailed(format string, args ...interface{}) *errors.Error {
-	return errors.New(408, UserErrorReason_DELETE_DATA_FAILED.String(), fmt.Sprintf(format, args...))
+	return errors.New(409, UserErrorReason_DELETE_DATA_FAILED.String(), fmt.Sprintf(format, args...))
 }
